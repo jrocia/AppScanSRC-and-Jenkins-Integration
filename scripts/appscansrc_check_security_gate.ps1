@@ -14,7 +14,7 @@
 
 write-host "======== Step: Checking Security Gate ========"
 # Loading ozasmt (AppScan Source result scan file) file into a variable
-[XML]$xml=Get-Content *.ozasmt
+[XML]$xml=Get-Content $aseAppName-$BuildNumber.ozasmt
 [int]$highIssues = $xml.AssessmentRun.AssessmentStats.total_high_finding
 [int]$mediumIssues = $xml.AssessmentRun.AssessmentStats.total_med_finding
 [int]$lowIssues = $xml.AssessmentRun.AssessmentStats.total_low_finding
