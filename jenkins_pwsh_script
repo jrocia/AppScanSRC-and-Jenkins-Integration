@@ -1,9 +1,9 @@
-$aseApiKeyId='YWMKP15D69EESMIXG7KZNLZER19TQ6TB'
-$aseApiKeySecret='HX7RCTE5SAABD72BLHNVW3MAMVG05S6R'
+$aseApiKeyId='xxxxxxxx'
+$aseApiKeySecret='xxxxxxxxx'
 $compiledArtifactFolder='none'
 $scanConfig='Normal scan'
 $aseAppName="$env:JOB_NAME"
-$aseHostname='winappscan'
+$aseHostname='xxxxxxxxx'
 $aseToken='C:\ProgramData\HCL\AppScanSource\config\ounceautod.token'
 $sevSecGw='highIssues'
 $maxIssuesAllowed='100'
