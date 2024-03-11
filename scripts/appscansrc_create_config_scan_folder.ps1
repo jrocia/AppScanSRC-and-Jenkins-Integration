@@ -22,6 +22,7 @@ if ($compiledArtifactFolder -ne "none"){
   }else{
     write-host "There is no compiled files compressed."
   }
+  # write-output "login_file $aseHostname `"$aseToken`" -acceptssl" > script.scan
   write-output "login > script.scan
   write-output "RUNAS AUTO" >> script.scan
   write-output "of `"$WorkingDirectory\$compiledArtifactFolder`"" >> script.scan
@@ -33,6 +34,7 @@ if ($compiledArtifactFolder -ne "none"){
   write-host "Config file created for compiled folder ($WorkingDirectory\$compiledArtifactFolder)."
 }
 else{
+  # write-output "login_file $aseHostname `"$aseToken`" -acceptssl" > script.scan
   write-output "login > script.scan
   write-output "RUNAS AUTO" >> script.scan
   write-output "of `"$WorkingDirectory`"" >> script.scan
