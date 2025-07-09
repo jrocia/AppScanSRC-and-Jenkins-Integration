@@ -44,7 +44,7 @@ Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}
 
 Expand-Archive .\scan_report_pdf.zip -DestinationPath .\ -Force
 sleep 10
-$file=$(Get-Item -Path *.xml);
+$file=$(Get-Item -Path *Report.xml);
 [XML]$xml = Get-Content $file;
 write-host "There are"$xml.'xml-report'.'scan-summary'.'total-issues-in-scan'"issues on "$complianceCheck" compliance report."
 write-host "The scan name $scanName was exported from Appscan Enterprise."
