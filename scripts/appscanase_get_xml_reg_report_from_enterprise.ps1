@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-$complianceCheck='CWETop25'
-
 write-host "======== Step: Requesting and Exporting compliance XML from ASE ========"
 # Get the scanName and jobIdASE from scanName_var.txt and jobId_var.txt file
 $scanName=(Get-Content .\scanName_var.txt);
