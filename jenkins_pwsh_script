@@ -9,7 +9,7 @@ $sevSecGw='highIssues'
 $maxIssuesAllowed='100'
 $workingDirectory="$env:WORKSPACE"
 $buildNumber="$env:BUILD_NUMBER"
-  
+$complianceCheck='CWETop25'
  
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/jrocia/AppScanSRC-and-Jenkins-Integration/main/scripts/appscanase_create_application_ase.ps1 -OutFile appscanase_create_application_ase.ps1
 .\appscanase_create_application_ase.ps1
