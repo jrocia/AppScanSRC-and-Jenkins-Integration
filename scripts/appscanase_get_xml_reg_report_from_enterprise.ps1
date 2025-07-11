@@ -48,3 +48,5 @@ $file=$(Get-Item -Path *Report.xml);
 [XML]$xml = Get-Content $file;
 write-host "There are"$xml.'xml-report'.'scan-summary'.'total-issues-in-scan'"issues on "$complianceCheck" compliance report."
 write-host "The scan name $scanName was exported from Appscan Enterprise."
+
+Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/logout" -SkipCertificateCheck | Out-Null
