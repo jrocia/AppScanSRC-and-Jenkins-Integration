@@ -13,6 +13,22 @@
 # limitations under the License.
 
 write-host "======== Step: Checking Security Gate ========"
+$sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
+# Get the aseAppId from ASE
+$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
+$session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
+$aseAppId=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/search?searchTerm=$aseAppName" -SkipCertificateCheck | ConvertFrom-Json).id;
+
+$aseAppAtrib = $(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/$aseAppId" -SkipCertificateCheck|ConvertFrom-Json);
+$secGw=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Security Gate" } | Select-Object -ExpandProperty value)
+write-host "$secGw"
+
+if ( $secGw -eq "Disabled" ) {
+  write-host "Security Gate disabled.";
+  exit 0
+  }
+write-host "Security Gate enabled.";
+
 # Loading ozasmt (AppScan Source result scan file) file into a variable
 [XML]$xml=Get-Content $aseAppName-$BuildNumber.ozasmt
 [int]$highIssues = $xml.AssessmentRun.AssessmentStats.total_high_finding
