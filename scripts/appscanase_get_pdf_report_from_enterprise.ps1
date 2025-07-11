@@ -43,3 +43,5 @@ Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"}
 Expand-Archive .\scan_report_pdf.zip -DestinationPath .\ -Force
 
 write-host "The scan name $scanName was exported from Appscan Enterprise."
+
+Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/logout" -SkipCertificateCheck | Out-Null
