@@ -23,6 +23,8 @@ $aseAppAtrib = $(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_tok
 $secGw=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Security Gate" } | Select-Object -ExpandProperty value)
 write-host "$secGw"
 
+Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/logout" -SkipCertificateCheck | Out-Null
+
 if ( $secGw -eq "Disabled" ) {
   write-host "Security Gate disabled.";
   exit 0
