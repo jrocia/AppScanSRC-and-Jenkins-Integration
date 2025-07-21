@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-write-host "======== Step: Creating a config scan folder ========"
+write-host "======== Step: Creating a config scan folder (auth) ========"
 # Creating Appscan Source script file. It is used with AppScanSrcCli to run scans reading folder content and selecting automatically the language (Open Folder command).
 if ($compiledArtifactFolder -ne "none"){
   $content=Get-ChildItem -Path $compiledArtifactFolder -filter "*.zip"
