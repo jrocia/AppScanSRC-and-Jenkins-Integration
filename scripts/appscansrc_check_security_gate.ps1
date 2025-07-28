@@ -23,9 +23,6 @@ $aseAppAtrib = $(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_tok
 $secGw=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Security Gate" } | Select-Object -ExpandProperty value)
 $sevSecGw=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Severity Sec Gate" } | Select-Object -ExpandProperty value)
 $maxIssuesAllowed=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Build Failure Amount" } | Select-Object -ExpandProperty value)
-write-host "$secGw"
-write-host "$sevSecGw"
-write-host "$maxIssuesAllowed"
 
 Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/logout" -SkipCertificateCheck | Out-Null
 
