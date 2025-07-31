@@ -13,19 +13,6 @@
 # limitations under the License.
 
 write-host "======== Step: Creating a config scan folder ========"
-$sessionId=$(Invoke-WebRequest -Method "POST" -Headers @{"Accept"="application/json"} -ContentType 'application/json' -Body "{`"keyId`": `"$aseApiKeyId`",`"keySecret`": `"$aseApiKeySecret`"}" -Uri "https://$aseHostname`:9443/ase/api/keylogin/apikeylogin" -SkipCertificateCheck | Select-Object -Expand Content | ConvertFrom-Json | select -ExpandProperty sessionId);
-# Get the aseAppId from ASE
-$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession;
-$session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId", "/", "$aseHostname")));
-$aseAppId=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/search?searchTerm=$aseAppName" -SkipCertificateCheck | ConvertFrom-Json).id;
-
-$aseAppAtrib = $(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/$aseAppId" -SkipCertificateCheck|ConvertFrom-Json);
-$scanConfig=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Scan Configuration" } | Select-Object -ExpandProperty value)
-
-Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/logout" -SkipCertificateCheck | Out-Null
-
-write-host "Using Scan Configuration $scanConfig."
-
 # Creating Appscan Source script file. It is used with AppScanSrcCli to run scans reading folder content and selecting automatically the language (Open Folder command).
 if ($compiledArtifactFolder -ne "none"){
   $content=Get-ChildItem -Path $compiledArtifactFolder -filter "*.zip"
