@@ -20,11 +20,15 @@ $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId
 $aseAppId=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/search?searchTerm=$aseAppName" -SkipCertificateCheck | ConvertFrom-Json).id;
 
 $aseAppAtrib = $(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/$aseAppId" -SkipCertificateCheck|ConvertFrom-Json);
-#$scanConfig=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Scan Configuration" } | Select-Object -ExpandProperty value)
-
+$checkScanConfig=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Scan Configuration" } | Select-Object -ExpandProperty value)
+if (-not [string]::IsNullOrWhiteSpace($checkScanConfig)) {
+    Write-Host "Scan Configuration found in Appscan Enterprise: $checkScanConfig"
+    $scanConfig=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Scan Configuration" } | Select-Object -ExpandProperty value)
+}
+else {
+    write-host "Using Scan Configuration $scanConfig."
+}
 Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/logout" -SkipCertificateCheck | Out-Null
-
-write-host "Using Scan Configuration $scanConfig."
 
 # Creating Appscan Source script file. It is used with AppScanSrcCli to run scans reading folder content and selecting automatically the language (Open Folder command).
 if ($compiledArtifactFolder -ne "none"){
