@@ -20,7 +20,7 @@ $session.Cookies.Add((New-Object System.Net.Cookie("asc_session_id", "$sessionId
 $aseAppId=$(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/search?searchTerm=$aseAppName" -SkipCertificateCheck | ConvertFrom-Json).id;
 
 $aseAppAtrib = $(Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/applications/$aseAppId" -SkipCertificateCheck|ConvertFrom-Json);
-$scanConfig=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Scan Configuration" } | Select-Object -ExpandProperty value)
+#$scanConfig=$($aseAppAtrib.attributeCollection.attributeArray | Where-Object { $_.name -eq "Scan Configuration" } | Select-Object -ExpandProperty value)
 
 Invoke-WebRequest -WebSession $session -Headers @{"Asc_xsrf_token"="$sessionId"} -Uri "https://$aseHostname`:9443/ase/api/logout" -SkipCertificateCheck | Out-Null
 
