@@ -43,5 +43,5 @@ else{
   write-output "pa `"$aseAppName-$BuildNumber.ozasmt`"" >> script.scan
   write-output "exit" >> script.scan
   
-  write-host "Config file created (source code only scan)."
+  write-host "Config file created (source code only scan). Scan directory: $WorkingDirectory"
 }
