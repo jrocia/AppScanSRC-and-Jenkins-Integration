@@ -63,4 +63,4 @@ else{
 write-host "Security Gate passed"
   }
 # If you want to delete files after execution excepted pdf and xml files
-Remove-Item -path $workingDirectory\* -recurse -exclude *.pdf,*.xml,*.ozasmt
+#Remove-Item -path $workingDirectory\* -recurse -exclude *.pdf,*.xml,*.ozasmt
